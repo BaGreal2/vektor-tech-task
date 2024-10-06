@@ -1,3 +1,3 @@
-import { filters } from '@/data'
+import { FILTERS } from '@/data'
 
-export type Filter = (typeof filters)[number]
+export type Filter = (typeof FILTERS)[number]
