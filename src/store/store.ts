@@ -1,12 +1,9 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { counterSlice } from "./features";
+import { configureStore } from '@reduxjs/toolkit'
 
 export const store = configureStore({
-  reducer: {
-    counterState: counterSlice.reducer,
-  },
-});
+  reducer: {}
+})
 
-export type AppStore = typeof store;
-export type RootState = ReturnType<AppStore["getState"]>;
-export type AppDispatch = AppStore["dispatch"];
+export type AppStore = typeof store
+export type RootState = ReturnType<AppStore['getState']>
+export type AppDispatch = AppStore['dispatch']
