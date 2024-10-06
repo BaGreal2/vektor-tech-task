@@ -1,9 +1,14 @@
 import { Add, RoomPreferences } from '@mui/icons-material'
 import { Box, Button, Stack, Typography } from '@mui/material'
 
+import { useAppDispatch } from '@/store'
+import { openDrafts } from '@/store/features/drafts-slice'
+
 import { FilterTab } from './FilterTab'
 
 export const Header = () => {
+  const dispatch = useAppDispatch()
+
   return (
     <Stack
       direction="row"
@@ -50,6 +55,7 @@ export const Header = () => {
           background: '#1d43e1',
           height: '2.5rem'
         }}
+        onClick={() => dispatch(openDrafts())}
       >
         Add
       </Button>

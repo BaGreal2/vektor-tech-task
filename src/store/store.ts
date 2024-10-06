@@ -1,7 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 
+import { draftsSlice } from './features/drafts-slice'
+
 export const store = configureStore({
-  reducer: {}
+  reducer: {
+    drafts: draftsSlice.reducer
+  }
 })
 
 export type AppStore = typeof store
