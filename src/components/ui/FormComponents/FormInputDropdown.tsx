@@ -6,13 +6,23 @@ import {
   Select,
   SxProps
 } from '@mui/material'
-import { Control, Controller, FieldValues, Path } from 'react-hook-form'
+import {
+  Control,
+  Controller,
+  FieldValues,
+  Path,
+  RegisterOptions
+} from 'react-hook-form'
 
 type FormInputDropdownProps<T extends FieldValues, K extends string> = {
   name: Path<T>
   control: Control<T>
   label: string
   options: { value: K; label: string }[]
+  rules?: Omit<
+    RegisterOptions<T>,
+    'valueAsNumber' | 'valueAsDate' | 'setValueAs' | 'disabled'
+  >
   getStylesForOption?: (option: { value: K; label: string }) => SxProps
 } & FormControlProps
 
@@ -22,6 +32,7 @@ export const FormInputDropdown = <T extends FieldValues, K extends string>({
   label,
   options,
   required,
+  rules,
   getStylesForOption,
   ...props
 }: FormInputDropdownProps<T, K>) => {
@@ -31,7 +42,7 @@ export const FormInputDropdown = <T extends FieldValues, K extends string>({
       <Controller
         name={name}
         control={control}
-        rules={{ required }}
+        rules={{ ...rules, required }}
         render={({ field: { onChange, value } }) => (
           <Select onChange={onChange} value={value}>
             {options.map((option) => {

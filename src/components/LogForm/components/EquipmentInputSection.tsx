@@ -27,6 +27,14 @@ export const EquipmentInputSection = ({
         label="Odometer"
         control={control}
         type="number"
+        rules={{
+          validate: (value) => {
+            if (Number(value) < 0) {
+              return 'Odometer must be a positive number'
+            }
+            return true
+          }
+        }}
         slotProps={{
           input: {
             endAdornment: <InputAdornment position="end">mi</InputAdornment>
@@ -41,6 +49,14 @@ export const EquipmentInputSection = ({
         label="Engine Hours"
         control={control}
         type="number"
+        rules={{
+          validate: (value) => {
+            if (Number(value) < 0) {
+              return 'Engine hours must be a positive number'
+            }
+            return true
+          }
+        }}
         slotProps={{
           input: {
             endAdornment: <InputAdornment position="end">h</InputAdornment>
