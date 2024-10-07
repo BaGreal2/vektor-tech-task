@@ -13,12 +13,12 @@ import {
 import { LogFormData } from '@/types'
 
 import { LogForm } from '../LogForm'
-import { SlideModal } from '../SlideModal'
 import { extractLogFormDataFromLogData } from './helpers'
 
 export const LogEditModalContent = () => {
-  const { logs, isEditOpen, editLogId, searchQuery, typeFilter } =
-    useAppSelector((state) => state.logs)
+  const { logs, editLogId, searchQuery, typeFilter } = useAppSelector(
+    (state) => state.logs
+  )
   const dispatch = useAppDispatch()
 
   const logData = extractLogFormDataFromLogData(
