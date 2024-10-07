@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { Typography } from '@mui/material'
 import { useForm } from 'react-hook-form'
 
 import { DEFAULT_LOG_DATA } from '@/data'
@@ -13,16 +14,17 @@ import { LogFormData } from '@/types'
 
 import { LogFormContent } from '../LogFormContent'
 import { SlideModal } from '../SlideModal'
+import { extractLogFormDataFromLogData } from './helpers'
 
 export const LogEditModal = () => {
   const { logs, isEditOpen, editLogId, searchQuery, typeFilter } =
     useAppSelector((state) => state.logs)
   const dispatch = useAppDispatch()
 
-  const { id: _, ...logData } = logs.find((log) => log.id === editLogId) ?? {
-    id: 0,
-    ...DEFAULT_LOG_DATA
-  }
+  const logData = extractLogFormDataFromLogData(
+    logs.find((log) => log.id === editLogId)
+  )
+
   const { control, reset } = useForm<LogFormData>({
     defaultValues: logData
   })
@@ -49,6 +51,9 @@ export const LogEditModal = () => {
   }
   return (
     <SlideModal isOpen={isEditOpen} onClose={() => dispatch(closeEdit())}>
+      <Typography variant="h3" marginBottom="1.25rem">
+        Editing a log
+      </Typography>
       <LogFormContent
         control={control}
         onSubmit={onSubmit}

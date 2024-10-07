@@ -13,16 +13,7 @@ interface LogsState {
 }
 
 const loadPersistState = (): LogsState => {
-  let logs = []
-
-  try {
-    const serializedState = getPersistData('logs')
-    if (serializedState) {
-      logs = JSON.parse(serializedState)
-    }
-  } catch (error) {
-    console.error('Failed to load state from localStorage', error)
-  }
+  const logs = getPersistData<LogData[]>('logs') ?? []
 
   return {
     searchQuery: '',

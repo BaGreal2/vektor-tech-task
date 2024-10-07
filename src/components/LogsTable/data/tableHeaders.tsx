@@ -1,8 +1,13 @@
 import { Delete, Edit } from '@mui/icons-material'
 import { GridActionsCellItem, GridColDef } from '@mui/x-data-grid'
-import { useDispatch } from 'react-redux'
 
-import { openEdit, removeLog } from '@/store/features/logsSlice'
+import { useAppDispatch, useAppSelector } from '@/store'
+import {
+  openEdit,
+  removeLog,
+  requestSearch,
+  setTypeFilter
+} from '@/store/features/logsSlice'
 import { LogData } from '@/types'
 
 export const tableHeaders: GridColDef<LogData>[] = [
@@ -74,7 +79,8 @@ export const tableHeaders: GridColDef<LogData>[] = [
     field: 'actions',
     type: 'actions',
     getActions: (params) => {
-      const dispatch = useDispatch()
+      const { searchQuery, typeFilter } = useAppSelector((state) => state.logs)
+      const dispatch = useAppDispatch()
 
       return [
         <GridActionsCellItem
@@ -85,7 +91,11 @@ export const tableHeaders: GridColDef<LogData>[] = [
         <GridActionsCellItem
           icon={<Delete />}
           label="Delete"
-          onClick={() => dispatch(removeLog(params.row.id))}
+          onClick={() => {
+            dispatch(removeLog(params.row.id))
+            dispatch(requestSearch(searchQuery))
+            dispatch(setTypeFilter(typeFilter))
+          }}
         />
       ]
     }

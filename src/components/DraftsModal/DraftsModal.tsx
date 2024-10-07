@@ -22,6 +22,7 @@ import { Draft, LogFormData } from '@/types'
 import { LogFormContent } from '../LogFormContent'
 import { SlideModal } from '../SlideModal'
 import { DraftsTabs } from './components'
+import { extractLogFormDataFromDraft } from './helpers'
 
 export const DraftsModal = () => {
   const { isOpen, drafts, activeDraftId } = useAppSelector(
@@ -32,12 +33,10 @@ export const DraftsModal = () => {
   )
   const dispatch = useAppDispatch()
 
-  const { id: persistId, ...persistLogData } = JSON.parse(
-    getPersistData('drafts') ?? '[]'
-  ).find((draft: Draft) => draft.id === activeDraftId) ?? {
-    id: '',
-    ...DEFAULT_LOG_DATA
-  }
+  const persistDrafts = getPersistData<Draft[]>('drafts') ?? []
+  const persistLogData = extractLogFormDataFromDraft(
+    persistDrafts.find((draft: Draft) => draft.id === activeDraftId)
+  )
 
   const { watch, control, reset } = useForm<LogFormData>({
     defaultValues: persistLogData
@@ -59,7 +58,6 @@ export const DraftsModal = () => {
     if (
       JSON.stringify(prevDataRef.current) !== JSON.stringify(watchAllFields)
     ) {
-      console.log(watchAllFields)
       setIsDataPersisted(false)
       persistFormData(watchAllFields)
 

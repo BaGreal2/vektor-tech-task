@@ -10,16 +10,7 @@ interface DraftState {
 }
 
 const loadPersistState = (): DraftState => {
-  let drafts = []
-
-  try {
-    const serializedState = getPersistData('drafts')
-    if (serializedState) {
-      drafts = JSON.parse(serializedState)
-    }
-  } catch (error) {
-    console.error('Failed to load state from localStorage', error)
-  }
+  const drafts = getPersistData<Draft[]>('drafts') ?? []
 
   return {
     isOpen: false,
