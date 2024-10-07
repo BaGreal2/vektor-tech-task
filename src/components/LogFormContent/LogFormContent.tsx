@@ -12,6 +12,7 @@ import {
 interface LogFormContentProps {
   control: Control<LogFormData>
   onSubmit: SubmitHandler<LogFormData>
+  submitLabel?: string
   indicateDataPersisted?: boolean
   isDataPersisted?: boolean
 }
@@ -19,6 +20,7 @@ interface LogFormContentProps {
 export const LogFormContent = ({
   control,
   onSubmit,
+  submitLabel = 'Submit',
   indicateDataPersisted = false,
   isDataPersisted = false
 }: LogFormContentProps) => {
@@ -43,9 +45,12 @@ export const LogFormContent = ({
       <Button
         type="submit"
         variant="contained"
+        sx={{
+          background: '#1d43e1'
+        }}
         onClick={handleSubmit(onSubmit)}
       >
-        Submit
+        {submitLabel}
       </Button>
     </Stack>
   )

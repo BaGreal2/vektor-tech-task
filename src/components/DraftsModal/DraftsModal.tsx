@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Box, Button, debounce } from '@mui/material'
+import { Box, Button, debounce, Stack } from '@mui/material'
 import { nanoid } from 'nanoid'
 import { useForm } from 'react-hook-form'
 
@@ -7,6 +7,7 @@ import { DEFAULT_LOG_DATA } from '@/data'
 import { getPersistData } from '@/helpers'
 import { useAppDispatch, useAppSelector } from '@/store'
 import {
+  clearDrafts,
   closeDrafts,
   removeDraft,
   updateDraft
@@ -128,8 +129,46 @@ export const DraftsModal = () => {
         <LogFormContent
           control={control}
           onSubmit={onSubmit}
+          submitLabel="Create Log"
           isDataPersisted={isDataPersisted}
         />
+        <Stack direction="row" gap="1rem" width="40rem">
+          <Button
+            variant="contained"
+            sx={{
+              flexGrow: 1,
+              marginTop: '1rem',
+              background: '#1D43E1'
+            }}
+            onClick={() => {
+              if (activeDraftId) {
+                dispatch(removeDraft(activeDraftId))
+              }
+
+              if (drafts.length <= 1) {
+                dispatch(closeDrafts())
+              }
+
+              reset(DEFAULT_LOG_DATA)
+            }}
+          >
+            Delete Draft
+          </Button>
+          <Button
+            variant="contained"
+            sx={{
+              flexGrow: 1,
+              marginTop: '1rem',
+              background: '#1D43E1'
+            }}
+            onClick={() => {
+              dispatch(clearDrafts())
+              dispatch(closeDrafts())
+            }}
+          >
+            Close All Draft
+          </Button>
+        </Stack>
       </Box>
 
       <Button
