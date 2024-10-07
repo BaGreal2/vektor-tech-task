@@ -8,6 +8,8 @@ interface LogsState {
   typeFilter: Filter
   logs: LogData[]
   filteredLogs: LogData[]
+  editLogId?: number
+  isEditOpen: boolean
 }
 
 const loadPersistState = (): LogsState => {
@@ -26,7 +28,9 @@ const loadPersistState = (): LogsState => {
     searchQuery: '',
     typeFilter: 'all',
     logs,
-    filteredLogs: logs
+    filteredLogs: logs,
+    editLogId: undefined,
+    isEditOpen: false
   }
 }
 
@@ -92,9 +96,23 @@ export const logsSlice = createSlice({
     removeLog: (state, action: PayloadAction<number>) => {
       state.logs = state.logs.filter((log) => log.id !== action.payload)
       persistData('logs', state.logs)
+    },
+    openEdit: (state, action: PayloadAction<number>) => {
+      state.editLogId = action.payload
+      state.isEditOpen = true
+    },
+    closeEdit: (state) => {
+      state.isEditOpen = false
     }
   }
 })
 
-export const { requestSearch, setTypeFilter, addLog, updateLog, removeLog } =
-  logsSlice.actions
+export const {
+  requestSearch,
+  setTypeFilter,
+  addLog,
+  updateLog,
+  removeLog,
+  openEdit,
+  closeEdit
+} = logsSlice.actions

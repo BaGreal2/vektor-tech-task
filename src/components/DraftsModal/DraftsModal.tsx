@@ -103,6 +103,7 @@ export const DraftsModal = () => {
         onSubmit={onSubmit}
         submitLabel="Create Log"
         isDataPersisted={isDataPersisted}
+        indicateDataPersisted
       />
       <Stack direction="row" gap="1rem" width="40rem">
         <Button

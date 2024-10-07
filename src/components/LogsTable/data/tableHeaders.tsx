@@ -2,7 +2,7 @@ import { Delete, Edit } from '@mui/icons-material'
 import { GridActionsCellItem, GridColDef } from '@mui/x-data-grid'
 import { useDispatch } from 'react-redux'
 
-import { removeLog } from '@/store/features/logsSlice'
+import { openEdit, removeLog } from '@/store/features/logsSlice'
 import { LogData } from '@/types'
 
 export const tableHeaders: GridColDef<LogData>[] = [
@@ -80,7 +80,7 @@ export const tableHeaders: GridColDef<LogData>[] = [
         <GridActionsCellItem
           icon={<Edit />}
           label="Edit Row"
-          onClick={() => console.log('edit', params.row)}
+          onClick={() => dispatch(openEdit(params.row.id))}
         />,
         <GridActionsCellItem
           icon={<Delete />}
