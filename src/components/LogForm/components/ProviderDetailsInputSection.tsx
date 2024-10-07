@@ -1,7 +1,7 @@
 import { Stack } from '@mui/material'
 import { Control } from 'react-hook-form'
 
-import { FormInputText } from '@/components/FormComponents'
+import { FormInputText } from '@/components/ui/FormComponents'
 import { LogFormData } from '@/types'
 
 interface ProviderDetailsInputSectionProps {

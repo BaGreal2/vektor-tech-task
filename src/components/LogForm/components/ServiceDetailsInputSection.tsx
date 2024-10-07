@@ -7,7 +7,7 @@ import {
   FormInputDate,
   FormInputDropdown,
   FormInputText
-} from '@/components/FormComponents'
+} from '@/components/ui/FormComponents'
 import { filterToColor, LOG_TYPES } from '@/data'
 import { LogFormData } from '@/types'
 

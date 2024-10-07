@@ -7,7 +7,7 @@ import {
 import { LogEditModalContent } from '@/components/LogEditModal'
 import { LogsTable } from '@/components/LogsTable'
 import { MenuBar } from '@/components/MenuBar'
-import { SlideModal } from '@/components/SlideModal'
+import { SlideModal } from '@/components/ui/SlideModal'
 
 import { useAppDispatch, useAppSelector } from './store'
 import { closeDrafts } from './store/features/draftsSlice'

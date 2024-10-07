@@ -2,6 +2,7 @@ import { Add, RoomPreferences } from '@mui/icons-material'
 import { Button, Stack, TextField, Typography } from '@mui/material'
 import { nanoid } from 'nanoid'
 
+import { FilterTab } from '@/components/ui/FilterTab'
 import { DEFAULT_LOG_DATA, FILTERS } from '@/data'
 import { removePersistData } from '@/helpers'
 import { useAppDispatch, useAppSelector } from '@/store'
@@ -11,8 +12,6 @@ import {
   setActiveDraft
 } from '@/store/features/draftsSlice'
 import { requestSearch } from '@/store/features/logsSlice'
-
-import { FilterTab } from '../FilterTab'
 
 export const MenuBar = () => {
   const dispatch = useAppDispatch()
