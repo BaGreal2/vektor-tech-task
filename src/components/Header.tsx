@@ -24,7 +24,8 @@ export const Header = () => {
         direction="row"
         spacing="2.5rem"
         sx={{
-          alignItems: 'center'
+          alignItems: 'center',
+          width: '80%'
         }}
       >
         <Stack direction="row" spacing="0.5rem" sx={{ alignItems: 'center' }}>
@@ -33,10 +34,21 @@ export const Header = () => {
           />
           <Typography variant="h6">Service Logs</Typography>
         </Stack>
-        <Stack direction="row" spacing="1rem">
+        <Stack
+          direction="row"
+          spacing="1rem"
+          sx={{
+            flexGrow: 1
+          }}
+        >
           {/* Search */}
           <Box
-            sx={{ width: '25.5rem', height: '2.25rem', background: '#F3F4F6' }}
+            sx={{
+              flexGrow: 1,
+              maxWidth: '25.5rem',
+              height: '2.25rem',
+              background: '#F3F4F6'
+            }}
           />
           {/* Filters */}
           <Stack direction="row" spacing="1rem">

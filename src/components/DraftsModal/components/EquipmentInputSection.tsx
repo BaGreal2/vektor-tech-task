@@ -1,16 +1,55 @@
-import { Stack, TextField } from '@mui/material'
+import { InputAdornment, Stack } from '@mui/material'
+import { Control } from 'react-hook-form'
 
-export const EquipmentInputSection = () => {
+import { FormInputText } from '@/components/FormComponents'
+import { LogData } from '@/types'
+
+interface EquipmentInputSectionProps {
+  control: Control<LogData>
+}
+
+export const EquipmentInputSection = ({
+  control
+}: EquipmentInputSectionProps) => {
   return (
     <Stack direction="row">
-      <TextField
-        id="provider"
-        label="Provider"
+      <FormInputText
+        name="truckId"
+        label="Truck"
+        control={control}
+        required
         sx={{
           flexGrow: 1
         }}
       />
-      <TextField id="service-order" label="Service Order" />
+      <FormInputText
+        name="odometer"
+        label="Odometer"
+        control={control}
+        type="number"
+        slotProps={{
+          input: {
+            endAdornment: <InputAdornment position="end">mi</InputAdornment>
+          }
+        }}
+        sx={{
+          width: '17rem'
+        }}
+      />
+      <FormInputText
+        name="engineHours"
+        label="Engine Hours"
+        control={control}
+        type="number"
+        slotProps={{
+          input: {
+            endAdornment: <InputAdornment position="end">h</InputAdornment>
+          }
+        }}
+        sx={{
+          width: '17rem'
+        }}
+      />
     </Stack>
   )
 }

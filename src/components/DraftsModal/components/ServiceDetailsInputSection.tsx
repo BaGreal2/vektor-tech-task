@@ -1,37 +1,45 @@
-import { MenuItem, Stack, TextField } from '@mui/material'
+import { Stack } from '@mui/material'
 import { DatePicker } from '@mui/x-date-pickers'
+import { Control } from 'react-hook-form'
 
-import { FILTERS } from '@/data'
+import { FormInputDropdown, FormInputText } from '@/components/FormComponents'
+import { LOG_TYPES } from '@/data'
+import { LogData } from '@/types'
 
-export const ServiceDetailsInputSection = () => {
+interface ServiceDetailsInputSectionProps {
+  control: Control<LogData>
+}
+
+export const ServiceDetailsInputSection = ({
+  control
+}: ServiceDetailsInputSectionProps) => {
   return (
     <Stack spacing="0.5rem">
       <Stack direction="row">
         <DatePicker label="Date In" />
         <DatePicker label="Date Out" />
-        <TextField
-          id="type"
+        <FormInputDropdown
+          name="type"
           label="Type"
-          select
-          defaultValue="all"
+          control={control}
+          required
+          options={LOG_TYPES.map((option) => ({
+            value: option,
+            label: option
+          }))}
           sx={{
             flexGrow: 1,
             minWidth: '10rem',
             textTransform: 'capitalize'
           }}
-        >
-          {FILTERS.map((option) => (
-            <MenuItem
-              key={option}
-              value={option}
-              sx={{ textTransform: 'capitalize' }}
-            >
-              {option}
-            </MenuItem>
-          ))}
-        </TextField>
+        />
       </Stack>
-      <TextField id="description" label="Service Description" />
+      <FormInputText
+        name="serviceDescription"
+        label="Service Description"
+        required
+        control={control}
+      />
     </Stack>
   )
 }

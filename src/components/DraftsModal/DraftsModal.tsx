@@ -1,17 +1,28 @@
 import { Box, Button, Stack } from '@mui/material'
+import { useForm } from 'react-hook-form'
 
 import { useAppDispatch, useAppSelector } from '@/store'
 import { closeDrafts } from '@/store/features/drafts-slice'
+import { LogData } from '@/types'
 
 import {
   EquipmentInputSection,
   ProviderDetailsInputSection,
   ServiceDetailsInputSection
 } from './components'
+import { DEFAULT_LOG_DATA } from './data'
 
 export const DraftsModal = () => {
   const isOpen = useAppSelector((state) => state.drafts.isOpen)
   const dispatch = useAppDispatch()
+  const { watch, handleSubmit, control } = useForm<LogData>({
+    defaultValues: DEFAULT_LOG_DATA
+  })
+
+  const onSubmit = (data: LogData) => {
+    console.log(data)
+    dispatch(closeDrafts())
+  }
 
   return (
     <Box
@@ -47,12 +58,19 @@ export const DraftsModal = () => {
         <Stack
           spacing="1.5rem"
           sx={{
-            width: '30rem'
+            width: '40rem'
           }}
         >
-          <ProviderDetailsInputSection />
-          <EquipmentInputSection />
-          <ServiceDetailsInputSection />
+          <ProviderDetailsInputSection control={control} />
+          <EquipmentInputSection control={control} />
+          <ServiceDetailsInputSection control={control} />
+          <Button
+            type="submit"
+            variant="contained"
+            onClick={handleSubmit(onSubmit)}
+          >
+            Submit
+          </Button>
         </Stack>
       </Box>
 

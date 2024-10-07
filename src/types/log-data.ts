@@ -4,8 +4,8 @@ export interface LogData {
   providerId: string
   serviceOrder: string
   truckId: string
-  odometer: number
-  engineHours: number
+  odometer: number | null
+  engineHours: number | null
   startDate: string
   endDate: string
   type: LogType

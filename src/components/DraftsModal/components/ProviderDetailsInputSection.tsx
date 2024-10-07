@@ -1,16 +1,33 @@
-import { Stack, TextField } from '@mui/material'
+import { Stack } from '@mui/material'
+import { Control } from 'react-hook-form'
 
-export const ProviderDetailsInputSection = () => {
+import { FormInputText } from '@/components/FormComponents'
+import { LogData } from '@/types'
+
+interface ProviderDetailsInputSectionProps {
+  control: Control<LogData>
+}
+
+export const ProviderDetailsInputSection = ({
+  control
+}: ProviderDetailsInputSectionProps) => {
   return (
     <Stack direction="row">
-      <TextField
-        id="provider"
+      <FormInputText
+        name="providerId"
         label="Provider"
+        control={control}
+        required
         sx={{
           flexGrow: 1
         }}
       />
-      <TextField id="service-order" label="Service Order" />
+      <FormInputText
+        name="serviceOrder"
+        label="Service Order"
+        required
+        control={control}
+      />
     </Stack>
   )
 }
