@@ -23,8 +23,6 @@ export const LogEditModal = () => {
     id: 0,
     ...DEFAULT_LOG_DATA
   }
-  console.log(logData)
-
   const { control, reset } = useForm<LogFormData>({
     defaultValues: logData
   })
@@ -35,7 +33,6 @@ export const LogEditModal = () => {
       ...DEFAULT_LOG_DATA
     }
 
-    console.log(logData)
     reset(logData)
   }, [editLogId, logs, reset])
 
