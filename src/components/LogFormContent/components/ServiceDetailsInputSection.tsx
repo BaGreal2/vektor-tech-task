@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Stack } from '@mui/material'
+import { alpha, Stack } from '@mui/material'
 import dayjs from 'dayjs'
 import { Control, useController, useWatch } from 'react-hook-form'
 
@@ -8,7 +8,7 @@ import {
   FormInputDropdown,
   FormInputText
 } from '@/components/FormComponents'
-import { LOG_TYPES } from '@/data'
+import { filterToColor, LOG_TYPES } from '@/data'
 import { LogFormData } from '@/types'
 
 interface ServiceDetailsInputSectionProps {
@@ -20,6 +20,7 @@ export const ServiceDetailsInputSection = ({
 }: ServiceDetailsInputSectionProps) => {
   const startDate = useWatch({ control, name: 'startDate' })
   const { field: endDateField } = useController({ control, name: 'endDate' })
+  const type = useWatch({ control, name: 'type' })
 
   useEffect(() => {
     const startDayjs = dayjs(startDate)
@@ -59,10 +60,18 @@ export const ServiceDetailsInputSection = ({
             value: option,
             label: option
           }))}
+          getStylesForOption={({ value }) => {
+            const color = filterToColor[value] ?? 'black'
+
+            return {
+              background: alpha(color, 0.25)
+            }
+          }}
           sx={{
             flexGrow: 1,
             minWidth: '10rem',
-            textTransform: 'capitalize'
+            textTransform: 'capitalize',
+            background: alpha(filterToColor[type] ?? 'black', 0.25)
           }}
         />
       </Stack>
