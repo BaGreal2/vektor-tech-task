@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Add } from '@mui/icons-material'
-import { Box, Button, debounce, Stack, Typography } from '@mui/material'
+import { Box, Button, debounce } from '@mui/material'
 import { nanoid } from 'nanoid'
 import { useForm } from 'react-hook-form'
 
@@ -8,26 +7,27 @@ import { DEFAULT_LOG_DATA } from '@/data'
 import { getPersistData } from '@/helpers'
 import { useAppDispatch, useAppSelector } from '@/store'
 import {
-  addDraft,
   closeDrafts,
   removeDraft,
-  setActiveDraft,
   updateDraft
 } from '@/store/features/draftsSlice'
-import { addLog } from '@/store/features/logsSlice'
+import {
+  addLog,
+  requestSearch,
+  setTypeFilter
+} from '@/store/features/logsSlice'
 import { Draft, LogFormData } from '@/types'
 
-import {
-  EquipmentInputSection,
-  ProviderDetailsInputSection,
-  ServiceDetailsInputSection
-} from './components'
+import { LogFormContent } from '../LogFormContent'
+import { DraftsTabs } from './components'
 
 export const DraftsModal = () => {
   const { isOpen, drafts, activeDraftId } = useAppSelector(
     (state) => state.drafts
   )
-  const { logs } = useAppSelector((state) => state.logs)
+  const { logs, searchQuery, typeFilter } = useAppSelector(
+    (state) => state.logs
+  )
   const dispatch = useAppDispatch()
 
   const { id: persistId, ...persistLogData } = JSON.parse(
@@ -37,7 +37,7 @@ export const DraftsModal = () => {
     ...DEFAULT_LOG_DATA
   }
 
-  const { handleSubmit, watch, control, reset } = useForm<LogFormData>({
+  const { watch, control, reset } = useForm<LogFormData>({
     defaultValues: persistLogData
   })
   const [isDataPersisted, setIsDataPersisted] = useState(false)
@@ -83,6 +83,8 @@ export const DraftsModal = () => {
   const onSubmit = (data: LogFormData) => {
     console.log(data)
     dispatch(addLog({ id: logs.length, ...data }))
+    dispatch(requestSearch(searchQuery))
+    dispatch(setTypeFilter(typeFilter))
 
     if (activeDraftId) {
       dispatch(removeDraft(activeDraftId))
@@ -122,64 +124,12 @@ export const DraftsModal = () => {
           padding: '1rem'
         }}
       >
-        <Stack
-          direction="row"
-          justifyContent="flex-start"
-          height="2.5rem"
-          marginBottom="1rem"
-        >
-          {drafts.map((draft) => (
-            <Button
-              key={draft.id}
-              sx={{
-                height: '100%',
-                background: activeDraftId === draft.id ? 'white' : '#F3F4F6'
-              }}
-              onClick={() => dispatch(setActiveDraft(draft.id))}
-            >
-              New Draft
-            </Button>
-          ))}
-          <Button
-            sx={{
-              height: '100%'
-            }}
-            onClick={() => {
-              if (activeDraftId) {
-                dispatch(updateDraft({ ...watchAllFields, id: activeDraftId }))
-              }
-              const newId = nanoid()
-              dispatch(addDraft({ ...DEFAULT_LOG_DATA, id: newId }))
-              dispatch(setActiveDraft(newId))
-            }}
-          >
-            <Add />
-          </Button>
-        </Stack>
-        <Stack
-          spacing="1.5rem"
-          sx={{
-            width: '40rem'
-          }}
-        >
-          <ProviderDetailsInputSection control={control} />
-          <EquipmentInputSection control={control} />
-          <ServiceDetailsInputSection control={control} />
-
-          <Typography
-            variant="h6"
-            color={isDataPersisted ? '#1d43e1' : 'black'}
-          >
-            {isDataPersisted ? 'Saved Draft' : 'Saving Draft...'}
-          </Typography>
-          <Button
-            type="submit"
-            variant="contained"
-            onClick={handleSubmit(onSubmit)}
-          >
-            Submit
-          </Button>
-        </Stack>
+        <DraftsTabs currentDraftData={watchAllFields} />
+        <LogFormContent
+          control={control}
+          onSubmit={onSubmit}
+          isDataPersisted={isDataPersisted}
+        />
       </Box>
 
       <Button

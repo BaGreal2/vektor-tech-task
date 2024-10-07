@@ -7,6 +7,10 @@ export const DraftsModalTrigger = () => {
   const { drafts, activeDraftId } = useAppSelector((state) => state.drafts)
   const dispatch = useAppDispatch()
 
+  if (drafts.length === 0) {
+    return null
+  }
+
   return (
     <Button
       variant="contained"
