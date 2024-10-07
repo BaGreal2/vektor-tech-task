@@ -1,15 +1,19 @@
 import { alpha, Box, Button, Typography } from '@mui/material'
 
 import { filterToColor } from '@/data'
+import { useAppDispatch, useAppSelector } from '@/store'
+import { setTypeFilter } from '@/store/features/logsSlice'
 import { Filter } from '@/types'
 
 interface FilterTabProps {
-  isActive: boolean
   type: Filter
 }
 
-export const FilterTab = ({ isActive, type }: FilterTabProps) => {
+export const FilterTab = ({ type }: FilterTabProps) => {
+  const dispatch = useAppDispatch()
+  const activeType = useAppSelector((state) => state.logs.typeFilter)
   const tabColor = filterToColor[type]
+  const isActive = activeType === type
 
   return (
     <Button
@@ -21,6 +25,7 @@ export const FilterTab = ({ isActive, type }: FilterTabProps) => {
         textTransform: 'uppercase',
         paddingX: '0.5rem'
       }}
+      onClick={() => dispatch(setTypeFilter(type))}
     >
       {tabColor && (
         <Box

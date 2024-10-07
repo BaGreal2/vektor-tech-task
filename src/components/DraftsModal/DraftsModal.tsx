@@ -27,6 +27,7 @@ export const DraftsModal = () => {
   const { isOpen, drafts, activeDraftId } = useAppSelector(
     (state) => state.drafts
   )
+  const { logs } = useAppSelector((state) => state.logs)
   const dispatch = useAppDispatch()
 
   const { id: persistId, ...persistLogData } = JSON.parse(
@@ -81,7 +82,7 @@ export const DraftsModal = () => {
 
   const onSubmit = (data: LogFormData) => {
     console.log(data)
-    dispatch(addLog({ id: nanoid(), ...data }))
+    dispatch(addLog({ id: logs.length, ...data }))
 
     if (activeDraftId) {
       dispatch(removeDraft(activeDraftId))

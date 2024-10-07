@@ -1,20 +1,22 @@
 import { Add, RoomPreferences } from '@mui/icons-material'
-import { Box, Button, Stack, Typography } from '@mui/material'
+import { Button, Stack, TextField, Typography } from '@mui/material'
 import { nanoid } from 'nanoid'
 
-import { DEFAULT_LOG_DATA } from '@/data'
+import { DEFAULT_LOG_DATA, FILTERS } from '@/data'
 import { removePersistData } from '@/helpers'
-import { useAppDispatch } from '@/store'
+import { useAppDispatch, useAppSelector } from '@/store'
 import {
   addDraft,
   openDrafts,
   setActiveDraft
 } from '@/store/features/draftsSlice'
+import { requestSearch } from '@/store/features/logsSlice'
 
-import { FilterTab } from './FilterTab'
+import { FilterTab } from '../FilterTab'
 
-export const Header = () => {
+export const MenuBar = () => {
   const dispatch = useAppDispatch()
+  const searchQuery = useAppSelector((state) => state.logs.searchQuery)
 
   return (
     <Stack
@@ -47,20 +49,23 @@ export const Header = () => {
           }}
         >
           {/* Search */}
-          <Box
-            flexGrow={1}
-            maxWidth="25.5rem"
-            height="2.25rem"
+          <TextField
             sx={{
+              maxWidth: '25.5rem',
+              height: '2.5rem',
+              flexGrow: 1,
               background: '#F3F4F6'
             }}
+            size="small"
+            placeholder="Search"
+            value={searchQuery}
+            onChange={(e) => dispatch(requestSearch(e.target.value))}
           />
           {/* Filters */}
           <Stack direction="row" spacing="1rem">
-            <FilterTab isActive={true} type="all" />
-            <FilterTab isActive={false} type="planned" />
-            <FilterTab isActive={false} type="unplanned" />
-            <FilterTab isActive={false} type="emergency" />
+            {FILTERS.map((filter) => (
+              <FilterTab key={filter} type={filter} />
+            ))}
           </Stack>
         </Stack>
       </Stack>

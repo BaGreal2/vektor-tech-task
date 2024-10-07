@@ -1,13 +1,15 @@
 import { Box } from '@mui/material'
 
-import { Header } from '@/components/Header'
-
-import { DraftsModal } from './components/DraftsModal'
+import { DraftsModal, DraftsModalTrigger } from '@/components/DraftsModal'
+import { LogsTable } from '@/components/LogsTable'
+import { MenuBar } from '@/components/MenuBar'
 
 export const App = () => {
   return (
     <Box>
-      <Header />
+      <MenuBar />
+      <LogsTable />
+      <DraftsModalTrigger />
       <DraftsModal />
     </Box>
   )

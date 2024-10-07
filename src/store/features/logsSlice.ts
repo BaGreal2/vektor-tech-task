@@ -1,10 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { getPersistData, persistData } from '@/helpers'
-import { LogData } from '@/types'
+import { Filter, LogData } from '@/types'
 
 interface LogsState {
+  searchQuery: string
+  typeFilter: Filter
   logs: LogData[]
+  filteredLogs: LogData[]
 }
 
 const loadPersistState = (): LogsState => {
@@ -20,7 +23,10 @@ const loadPersistState = (): LogsState => {
   }
 
   return {
-    logs
+    searchQuery: '',
+    typeFilter: 'all',
+    logs,
+    filteredLogs: logs
   }
 }
 
@@ -34,6 +40,44 @@ export const logsSlice = createSlice({
       state.logs.push(action.payload)
       persistData('logs', state.logs)
     },
+    requestSearch: (state, action: PayloadAction<string>) => {
+      state.searchQuery = action.payload
+
+      if (action.payload === '') {
+        state.filteredLogs = state.logs
+        return
+      }
+      const filteredRows = state.logs.filter((row) => {
+        return (
+          row.id
+            .toString()
+            .toLowerCase()
+            .includes(action.payload.toLowerCase()) ||
+          row.providerId.toLowerCase().includes(action.payload.toLowerCase()) ||
+          row.serviceOrder
+            .toLowerCase()
+            .includes(action.payload.toLowerCase()) ||
+          row.truckId.toLowerCase().includes(action.payload.toLowerCase()) ||
+          row.type.toLowerCase().includes(action.payload.toLowerCase()) ||
+          row.serviceDescription
+            .toLowerCase()
+            .includes(action.payload.toLowerCase())
+        )
+      })
+      state.filteredLogs = filteredRows
+    },
+    setTypeFilter: (state, action: PayloadAction<Filter>) => {
+      state.typeFilter = action.payload
+
+      if (action.payload === 'all') {
+        state.filteredLogs = state.logs
+        return
+      }
+      const filteredRows = state.logs.filter(
+        (row) => row.type === action.payload
+      )
+      state.filteredLogs = filteredRows
+    },
     updateLog: (state, action: PayloadAction<LogData>) => {
       const logIndex = state.logs.findIndex(
         (log) => log.id === action.payload.id
@@ -45,11 +89,12 @@ export const logsSlice = createSlice({
         console.error(`Log with id ${action.payload.id} not found`)
       }
     },
-    removeLog: (state, action: PayloadAction<string>) => {
+    removeLog: (state, action: PayloadAction<number>) => {
       state.logs = state.logs.filter((log) => log.id !== action.payload)
       persistData('logs', state.logs)
     }
   }
 })
 
-export const { addLog, updateLog, removeLog } = logsSlice.actions
+export const { requestSearch, setTypeFilter, addLog, updateLog, removeLog } =
+  logsSlice.actions
