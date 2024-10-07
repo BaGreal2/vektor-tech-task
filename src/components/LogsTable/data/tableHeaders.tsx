@@ -1,6 +1,7 @@
 import { Delete, Edit } from '@mui/icons-material'
 import { GridActionsCellItem, GridColDef } from '@mui/x-data-grid'
 
+import { LogTypeBadge } from '@/components/LogTypeBadge'
 import { useAppDispatch, useAppSelector } from '@/store'
 import {
   openEdit,
@@ -68,7 +69,8 @@ export const tableHeaders: GridColDef<LogData>[] = [
   {
     field: 'type',
     headerName: 'TYPE',
-    width: 100
+    renderCell: ({ value }) => <LogTypeBadge type={value} />,
+    width: 130
   },
   {
     field: 'serviceDescription',

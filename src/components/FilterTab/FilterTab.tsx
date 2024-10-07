@@ -45,7 +45,7 @@ export const FilterTab = ({ type }: FilterTabProps) => {
               background: tabColor,
               borderRadius: '100%'
             }}
-          ></Box>
+          />
         </Box>
       )}
       <Typography
