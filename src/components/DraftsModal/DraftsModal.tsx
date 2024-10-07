@@ -1,6 +1,8 @@
-import { Box, Button, Stack } from '@mui/material'
+import { useEffect, useState } from 'react'
+import { Box, Button, debounce, Stack, Typography } from '@mui/material'
 import { useForm } from 'react-hook-form'
 
+import { persistData, removePersistData } from '@/helpers'
 import { useAppDispatch, useAppSelector } from '@/store'
 import { closeDrafts } from '@/store/features/drafts-slice'
 import { LogData } from '@/types'
@@ -15,12 +17,30 @@ import { DEFAULT_LOG_DATA } from './data'
 export const DraftsModal = () => {
   const isOpen = useAppSelector((state) => state.drafts.isOpen)
   const dispatch = useAppDispatch()
-  const { watch, handleSubmit, control } = useForm<LogData>({
-    defaultValues: DEFAULT_LOG_DATA
+  const { handleSubmit, watch, control, reset } = useForm<LogData>({
+    defaultValues:
+      JSON.parse(localStorage.getItem('currentDraft') ?? 'null') ||
+      DEFAULT_LOG_DATA
   })
+  const [isDataPersisted, setIsDataPersisted] = useState(false)
+
+  const watchAllFields = watch()
+
+  const persistFormData = debounce((data) => {
+    persistData('currentDraft', data)
+    setIsDataPersisted(true)
+  }, 1000)
+
+  useEffect(() => {
+    console.log(watchAllFields)
+    setIsDataPersisted(false)
+    persistFormData(watchAllFields)
+  }, [watchAllFields])
 
   const onSubmit = (data: LogData) => {
     console.log(data)
+    removePersistData('currentDraft')
+    reset()
     dispatch(closeDrafts())
   }
 
@@ -64,6 +84,13 @@ export const DraftsModal = () => {
           <ProviderDetailsInputSection control={control} />
           <EquipmentInputSection control={control} />
           <ServiceDetailsInputSection control={control} />
+
+          <Typography
+            variant="h6"
+            color={isDataPersisted ? '#1d43e1' : 'black'}
+          >
+            {isDataPersisted ? 'Saved Draft' : 'Saving Draft...'}
+          </Typography>
           <Button
             type="submit"
             variant="contained"
