@@ -12,11 +12,11 @@ import {
 } from '@/store/features/logsSlice'
 import { LogFormData } from '@/types'
 
-import { LogFormContent } from '../LogFormContent'
+import { LogForm } from '../LogForm'
 import { SlideModal } from '../SlideModal'
 import { extractLogFormDataFromLogData } from './helpers'
 
-export const LogEditModal = () => {
+export const LogEditModalContent = () => {
   const { logs, isEditOpen, editLogId, searchQuery, typeFilter } =
     useAppSelector((state) => state.logs)
   const dispatch = useAppDispatch()
@@ -50,15 +50,11 @@ export const LogEditModal = () => {
     dispatch(closeEdit())
   }
   return (
-    <SlideModal isOpen={isEditOpen} onClose={() => dispatch(closeEdit())}>
+    <>
       <Typography variant="h3" marginBottom="1.25rem">
         Editing a log
       </Typography>
-      <LogFormContent
-        control={control}
-        onSubmit={onSubmit}
-        submitLabel="Update Log"
-      />
-    </SlideModal>
+      <LogForm control={control} onSubmit={onSubmit} submitLabel="Update Log" />
+    </>
   )
 }

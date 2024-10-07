@@ -19,15 +19,12 @@ import {
 } from '@/store/features/logsSlice'
 import { Draft, LogFormData } from '@/types'
 
-import { LogFormContent } from '../LogFormContent'
-import { SlideModal } from '../SlideModal'
+import { LogForm } from '../LogForm'
 import { DraftsTabs } from './components'
 import { extractLogFormDataFromDraft } from './helpers'
 
-export const DraftsModal = () => {
-  const { isOpen, drafts, activeDraftId } = useAppSelector(
-    (state) => state.drafts
-  )
+export const DraftsModalContent = () => {
+  const { drafts, activeDraftId } = useAppSelector((state) => state.drafts)
   const { logs, searchQuery, typeFilter } = useAppSelector(
     (state) => state.logs
   )
@@ -94,9 +91,9 @@ export const DraftsModal = () => {
   }
 
   return (
-    <SlideModal isOpen={isOpen} onClose={() => dispatch(closeDrafts())}>
+    <>
       <DraftsTabs currentDraftData={watchAllFields} />
-      <LogFormContent
+      <LogForm
         control={control}
         onSubmit={onSubmit}
         submitLabel="Create Log"
@@ -140,6 +137,6 @@ export const DraftsModal = () => {
           Clear All Draft
         </Button>
       </Stack>
-    </SlideModal>
+    </>
   )
 }

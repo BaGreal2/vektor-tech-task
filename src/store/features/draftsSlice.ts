@@ -4,7 +4,7 @@ import { getPersistData, persistData } from '@/helpers'
 import { Draft } from '@/types'
 
 interface DraftState {
-  isOpen: boolean
+  isDraftsOpen: boolean
   activeDraftId?: string
   drafts: Draft[]
 }
@@ -13,7 +13,7 @@ const loadPersistState = (): DraftState => {
   const drafts = getPersistData<Draft[]>('drafts') ?? []
 
   return {
-    isOpen: false,
+    isDraftsOpen: false,
     drafts
   }
 }
@@ -56,10 +56,10 @@ export const draftsSlice = createSlice({
       persistData('drafts', state.drafts)
     },
     openDrafts: (state) => {
-      state.isOpen = true
+      state.isDraftsOpen = true
     },
     closeDrafts: (state) => {
-      state.isOpen = false
+      state.isDraftsOpen = false
     }
   }
 })

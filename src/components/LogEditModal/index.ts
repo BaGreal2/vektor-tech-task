@@ -1,1 +1,1 @@
-export { LogEditModal } from './LogEditModal'
+export { LogEditModalContent } from './LogEditModalContent'

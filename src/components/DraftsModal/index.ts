@@ -1,2 +1,2 @@
-export { DraftsModal } from './DraftsModal'
+export { DraftsModalContent } from './DraftsModalContent'
 export { DraftsModalTrigger } from './DraftsModalTrigger'

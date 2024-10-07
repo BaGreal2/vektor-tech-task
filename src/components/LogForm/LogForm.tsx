@@ -9,7 +9,7 @@ import {
   ServiceDetailsInputSection
 } from './components'
 
-interface LogFormContentProps {
+interface LogFormProps {
   control: Control<LogFormData>
   onSubmit: SubmitHandler<LogFormData>
   submitLabel?: string
@@ -17,13 +17,13 @@ interface LogFormContentProps {
   isDataPersisted?: boolean
 }
 
-export const LogFormContent = ({
+export const LogForm = ({
   control,
   onSubmit,
   submitLabel = 'Submit',
   indicateDataPersisted = false,
   isDataPersisted = false
-}: LogFormContentProps) => {
+}: LogFormProps) => {
   const { handleSubmit } = control
 
   return (
