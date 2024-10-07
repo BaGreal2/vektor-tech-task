@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Box, Button, debounce, Stack } from '@mui/material'
+import { Button, debounce, Stack } from '@mui/material'
 import { nanoid } from 'nanoid'
 import { useForm } from 'react-hook-form'
 
@@ -20,6 +20,7 @@ import {
 import { Draft, LogFormData } from '@/types'
 
 import { LogFormContent } from '../LogFormContent'
+import { SlideModal } from '../SlideModal'
 import { DraftsTabs } from './components'
 
 export const DraftsModal = () => {
@@ -95,93 +96,51 @@ export const DraftsModal = () => {
   }
 
   return (
-    <Box
-      sx={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        zIndex: 1000,
-        width: '100vw',
-        height: '100vh',
-        opacity: isOpen ? 1 : 0,
-        pointerEvents: isOpen ? 'auto' : 'none',
-        transition: 'opacity 0.3s ease-in-out',
-        borderRadius: 0
-      }}
-    >
-      <Box
-        sx={{
-          position: 'absolute',
-          zIndex: 10,
-          top: 0,
-          right: 0,
-          width: '90%',
-          height: '100%',
-          background: 'white',
-          transform: isOpen ? undefined : 'translateX(100%)',
-          transition: 'transform 0.3s ease-in-out',
-          borderTopLeftRadius: '1rem',
-          borderBottomLeftRadius: '1rem',
-          padding: '1rem'
-        }}
-      >
-        <DraftsTabs currentDraftData={watchAllFields} />
-        <LogFormContent
-          control={control}
-          onSubmit={onSubmit}
-          submitLabel="Create Log"
-          isDataPersisted={isDataPersisted}
-        />
-        <Stack direction="row" gap="1rem" width="40rem">
-          <Button
-            variant="contained"
-            sx={{
-              flexGrow: 1,
-              marginTop: '1rem',
-              background: '#1D43E1'
-            }}
-            onClick={() => {
-              if (activeDraftId) {
-                dispatch(removeDraft(activeDraftId))
-              }
-
-              if (drafts.length <= 1) {
-                dispatch(closeDrafts())
-              }
-
-              reset(DEFAULT_LOG_DATA)
-            }}
-          >
-            Delete Draft
-          </Button>
-          <Button
-            variant="contained"
-            sx={{
-              flexGrow: 1,
-              marginTop: '1rem',
-              background: '#1D43E1'
-            }}
-            onClick={() => {
-              dispatch(clearDrafts())
-              dispatch(closeDrafts())
-            }}
-          >
-            Close All Draft
-          </Button>
-        </Stack>
-      </Box>
-
-      <Button
-        sx={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          background: 'rgba(0, 0, 0, 0.5)'
-        }}
-        onClick={() => dispatch(closeDrafts())}
+    <SlideModal isOpen={isOpen} onClose={() => dispatch(closeDrafts())}>
+      <DraftsTabs currentDraftData={watchAllFields} />
+      <LogFormContent
+        control={control}
+        onSubmit={onSubmit}
+        submitLabel="Create Log"
+        isDataPersisted={isDataPersisted}
       />
-    </Box>
+      <Stack direction="row" gap="1rem" width="40rem">
+        <Button
+          variant="contained"
+          sx={{
+            flexGrow: 1,
+            marginTop: '1rem',
+            background: '#1D43E1'
+          }}
+          onClick={() => {
+            if (activeDraftId) {
+              dispatch(removeDraft(activeDraftId))
+            }
+
+            if (drafts.length <= 1) {
+              dispatch(closeDrafts())
+            }
+
+            reset(DEFAULT_LOG_DATA)
+          }}
+        >
+          Delete Draft
+        </Button>
+        <Button
+          variant="contained"
+          sx={{
+            flexGrow: 1,
+            marginTop: '1rem',
+            background: '#1D43E1'
+          }}
+          onClick={() => {
+            dispatch(clearDrafts())
+            dispatch(closeDrafts())
+          }}
+        >
+          Clear All Draft
+        </Button>
+      </Stack>
+    </SlideModal>
   )
 }
