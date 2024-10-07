@@ -1,2 +1,1 @@
-export { persistData } from './persistData'
-export { removePersistData } from './persistData'
+export { persistData, getPersistData, removePersistData } from './persistData'

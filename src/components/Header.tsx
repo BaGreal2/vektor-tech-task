@@ -1,8 +1,15 @@
 import { Add, RoomPreferences } from '@mui/icons-material'
 import { Box, Button, Stack, Typography } from '@mui/material'
+import { nanoid } from 'nanoid'
 
+import { DEFAULT_LOG_DATA } from '@/data'
+import { removePersistData } from '@/helpers'
 import { useAppDispatch } from '@/store'
-import { openDrafts } from '@/store/features/drafts-slice'
+import {
+  addDraft,
+  openDrafts,
+  setActiveDraft
+} from '@/store/features/draftsSlice'
 
 import { FilterTab } from './FilterTab'
 
@@ -28,10 +35,8 @@ export const Header = () => {
           width: '80%'
         }}
       >
-        <Stack direction="row" spacing="0.5rem" sx={{ alignItems: 'center' }}>
-          <RoomPreferences
-            sx={{ width: '2.25rem', height: '2.25rem', opacity: 0.5 }}
-          />
+        <Stack direction="row" spacing="0.5rem" alignItems="center">
+          <RoomPreferences width="2.25rem" height="2.25rem" opacity={0.5} />
           <Typography variant="h6">Service Logs</Typography>
         </Stack>
         <Stack
@@ -43,10 +48,10 @@ export const Header = () => {
         >
           {/* Search */}
           <Box
+            flexGrow={1}
+            maxWidth="25.5rem"
+            height="2.25rem"
             sx={{
-              flexGrow: 1,
-              maxWidth: '25.5rem',
-              height: '2.25rem',
               background: '#F3F4F6'
             }}
           />
@@ -67,7 +72,13 @@ export const Header = () => {
           background: '#1d43e1',
           height: '2.5rem'
         }}
-        onClick={() => dispatch(openDrafts())}
+        onClick={() => {
+          removePersistData('currentDraft')
+          const newId = nanoid()
+          dispatch(addDraft({ ...DEFAULT_LOG_DATA, id: newId }))
+          dispatch(setActiveDraft(newId))
+          dispatch(openDrafts())
+        }}
       >
         Add
       </Button>

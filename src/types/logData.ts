@@ -1,5 +1,5 @@
 import { LogFormData } from './logFormData'
 
-export interface Draft extends LogFormData {
+export interface LogData extends LogFormData {
   id: string
 }

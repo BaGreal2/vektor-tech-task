@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 
-import { draftsSlice } from './features/drafts-slice'
+import { draftsSlice } from './features/draftsSlice'
+import { logsSlice } from './features/logsSlice'
 
 export const store = configureStore({
   reducer: {
-    drafts: draftsSlice.reducer
+    drafts: draftsSlice.reducer,
+    logs: logsSlice.reducer
   }
 })
 

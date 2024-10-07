@@ -1,8 +1,8 @@
 import dayjs from 'dayjs'
 
-import { LogData } from '@/types'
+import { LogFormData } from '@/types'
 
-export const DEFAULT_LOG_DATA: LogData = {
+export const DEFAULT_LOG_DATA: LogFormData = {
   providerId: '',
   serviceOrder: '',
   truckId: '',

@@ -1,6 +1,6 @@
 import { alpha, Box, Button, Typography } from '@mui/material'
 
-import { filterToColor } from '@/data/filter-to-color'
+import { filterToColor } from '@/data'
 import { Filter } from '@/types'
 
 interface FilterTabProps {

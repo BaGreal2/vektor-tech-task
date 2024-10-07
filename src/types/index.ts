@@ -1,4 +1,5 @@
 export type { Filter } from './filters'
-export type { LogType } from './log-types'
-export type { LogData } from './log-data'
+export type { LogType } from './logTypes'
+export type { LogFormData } from './logFormData'
+export type { LogData } from './logData'
 export type { Draft } from './draft'

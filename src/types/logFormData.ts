@@ -1,6 +1,6 @@
-import { LogType } from './log-types'
+import { LogType } from './logTypes'
 
-export interface LogData {
+export interface LogFormData {
   providerId: string
   serviceOrder: string
   truckId: string

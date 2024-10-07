@@ -9,10 +9,10 @@ import {
   FormInputText
 } from '@/components/FormComponents'
 import { LOG_TYPES } from '@/data'
-import { LogData } from '@/types'
+import { LogFormData } from '@/types'
 
 interface ServiceDetailsInputSectionProps {
-  control: Control<LogData>
+  control: Control<LogFormData>
 }
 
 export const ServiceDetailsInputSection = ({
